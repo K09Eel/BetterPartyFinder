@@ -18,11 +18,11 @@ public partial class MainWindow
         ImGui.TableSetupColumn("##Add");
 
         ImGui.TableNextColumn();
-        Helper.TextColored(ImGuiColors.HealerGreen, "Selected:");
+        Helper.TextColored(ImGuiColors.HealerGreen, "已选择:");
         ImGui.Separator();
 
         ImGui.TableNextColumn();
-        Helper.TextColored(ImGuiColors.ParsedOrange, "Available:");
+        Helper.TextColored(ImGuiColors.ParsedOrange, "可用:");
         ImGui.Separator();
 
         ImGui.TableNextColumn();

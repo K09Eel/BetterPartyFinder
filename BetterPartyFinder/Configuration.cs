@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Configuration;
@@ -51,6 +51,8 @@ public class ConfigurationFilter
     public uint? MaxItemLevel { get; set; }
 
     public HashSet<PlayerInfo> Players { get; set; } = [];
+    public HashSet<string> Keywords { get; set; } = [];
+    public HashSet<string> SensitiveWords { get; set; } = [];
 
     internal bool this[SearchAreaFlags flags]
     {

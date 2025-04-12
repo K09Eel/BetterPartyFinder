@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Numerics;
 using Dalamud.Interface;
 using Dalamud.Interface.Colors;
@@ -18,11 +18,11 @@ public partial class MainWindow
     {
         var listModeStrings = new[]
         {
-            "Show ONLY these duties",
-            "Do NOT show these duties",
+            "展示已选择",
+            "去除已选择",
         };
 
-        Helper.TextColored(ImGuiColors.DalamudOrange, "Options:");
+        Helper.TextColored(ImGuiColors.DalamudOrange, "筛选模式:");
         ImGui.Separator();
 
         var listModeIdx = filter.DutiesMode == ListMode.Blacklist ? 1 : 0;
@@ -41,7 +41,7 @@ public partial class MainWindow
         }
 
         if (ImGui.IsItemHovered())
-            Helper.Tooltip("Search new duty for selection");
+            Helper.Tooltip("搜索副本");
 
         ImGui.SameLine();
 
@@ -52,9 +52,9 @@ public partial class MainWindow
         }
 
         if (ImGui.IsItemHovered())
-            Helper.Tooltip("Clear all duties from the selection");
+            Helper.Tooltip("清空已选择");
 
-        Helper.TextColored(ImGuiColors.HealerGreen, "Selected:");
+        Helper.TextColored(ImGuiColors.HealerGreen, "已选择:");
         ImGui.Separator();
 
         using var child = ImRaii.Child("duty-selection", Vector2.Zero);

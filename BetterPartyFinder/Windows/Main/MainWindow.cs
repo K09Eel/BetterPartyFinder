@@ -20,7 +20,7 @@ public unsafe partial class MainWindow : Window, IDisposable
     private string PresetName { get; set; } = string.Empty;
 
     private Tabs SelectedTab;
-    private static readonly Tabs[] WindowTabs = [Tabs.Categories, Tabs.Duties, Tabs.ILvL, Tabs.Jobs, Tabs.Restrictions, Tabs.Players];
+    private static readonly Tabs[] WindowTabs = [Tabs.Categories, Tabs.Duties, Tabs.Jobs, Tabs.Restrictions, Tabs.Keywords, Tabs.SensitiveWords];
 
     public MainWindow(Plugin plugin) : base(Plugin.Name)
     {
@@ -135,7 +135,7 @@ public unsafe partial class MainWindow : Window, IDisposable
         }
 
         if (ImGui.IsItemHovered())
-            Helper.Tooltip("Add new preset");
+            Helper.Tooltip("添加预设");
 
         ImGui.SameLine();
 
@@ -146,7 +146,7 @@ public unsafe partial class MainWindow : Window, IDisposable
         }
 
         if (ImGui.IsItemHovered())
-            Helper.Tooltip("Delete selected preset");
+            Helper.Tooltip("删除当前预设");
 
         ImGui.SameLine();
 
@@ -160,20 +160,20 @@ public unsafe partial class MainWindow : Window, IDisposable
             }
         }
 
-        using (var modal = ImRaii.PopupModal("Rename preset###rename-preset"))
+        using (var modal = ImRaii.PopupModal("重命名###rename-preset"))
         {
             if (modal.Success && selected != null)
             {
                 if (Plugin.Config.Presets.TryGetValue(selected.Value, out var editPreset))
                 {
-                    ImGui.TextUnformatted("Preset name");
+                    ImGui.TextUnformatted("预设名称");
                     ImGui.PushItemWidth(-1f);
                     var name = PresetName;
                     if (ImGui.InputText("###preset-name", ref name, 1_000))
                         PresetName = name;
                     ImGui.PopItemWidth();
 
-                    if (ImGui.Button("Save") && PresetName.Trim().Length > 0)
+                    if (ImGui.Button("保存") && PresetName.Trim().Length > 0)
                     {
                         editPreset.Name = PresetName;
                         Plugin.Config.Save();
@@ -184,7 +184,7 @@ public unsafe partial class MainWindow : Window, IDisposable
         }
 
         if (ImGui.IsItemHovered())
-            Helper.Tooltip("Rename selected preset");
+            Helper.Tooltip("重命名");
 
         ImGui.SameLine();
 
@@ -203,7 +203,7 @@ public unsafe partial class MainWindow : Window, IDisposable
         }
 
         if (ImGui.IsItemHovered())
-            Helper.Tooltip("Copy selected preset");
+            Helper.Tooltip("复制预设");
 
         ImGui.Separator();
 
@@ -251,6 +251,12 @@ public unsafe partial class MainWindow : Window, IDisposable
                         break;
                     case Tabs.Players:
                         DrawPlayersTab(filter);
+                        break;
+                    case Tabs.Keywords:
+                        DrawKeywordsTab(filter);
+                        break;
+                    case Tabs.SensitiveWords:
+                        DrawSensitiveTab(filter);
                         break;
                 }
             }

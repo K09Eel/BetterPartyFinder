@@ -1,4 +1,4 @@
-﻿using BetterPartyFinder.Windows.Config;
+using BetterPartyFinder.Windows.Config;
 using BetterPartyFinder.Windows.Main;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;

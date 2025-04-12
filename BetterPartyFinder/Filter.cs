@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dalamud.Game.Gui.PartyFinder.Types;
+using Lumina.Excel.Sheets;
 
 namespace BetterPartyFinder;
 
@@ -110,6 +111,7 @@ public class Filter : IDisposable
         // filter based on jobs (slow?)
         if (filter.Jobs.Count > 0 && !listing[SearchAreaFlags.AllianceRaid])
         {
+            Plugin.Log.Error("————————");
             var slots = listing.Slots.ToArray();
             var present = listing.RawJobsPresent.ToArray();
 
@@ -118,12 +120,41 @@ public class Filter : IDisposable
             for (var i = 0; i < jobs.Length; i++)
                 jobs[i] = [];
 
+            Plugin.Log.Error(listing.Name.TextValue);
+            Plugin.Log.Error(String.Join(",", listing.SlotsFilled));
+
+            Plugin.Log.Error(listing.SlotsFilled + listing.SlotsAvailable + "");
+
+
             for (var idx = 0; idx < filter.Jobs.Count; idx++)
             {
                 var wanted = filter.Jobs[idx];
 
+                ////查看已有职业
+                //for (var i = 0; i < listing.SlotsAvailable; i++)
+                //{
+                //    ClassJob ? job = wanted.ClassJob(Plugin.Data);
+                //    bool rr = present[i] == job.Value.RowId;
+                //    Plugin.Log.Error(i + ": " + rr);
+                //    //去掉相同职业
+                //    if (rr)
+                //    {
+                //        return false;
+                //    }
+                //}
+
+                //查看空位
                 for (var i = 0; i < listing.SlotsAvailable; i++)
                 {
+                    ClassJob? currentJob = wanted.ClassJob(Plugin.Data);
+                    bool rr = present[i] == currentJob.Value.RowId;
+                    Plugin.Log.Error(i + ": " + rr);
+                    //去掉相同职业
+                    if (rr)
+                    {
+                        return false;
+                    }
+
                     // if the slot is already full or the job can't fit into it, skip
                     if (present[i] != 0 || !slots[i][wanted])
                         continue;
@@ -159,6 +190,8 @@ public class Filter : IDisposable
                 if (jobs[idx].Count == 0)
                     return false;
             }
+
+            //Plugin.Log.Error("————————");
 
             // ensure the number of total slots with possibles joins is at least the number of jobs
             // note that this doesn't make sure it's joinable, see below
@@ -196,9 +229,19 @@ public class Filter : IDisposable
             }
         }
 
-        // filter based on player
+        // 按队长名去除
         if (filter.Players.Count > 0)
             if (filter.Players.Any(info => info.Name == listing.Name.TextValue && info.World == listing.HomeWorld.Value.RowId))
+                return false;
+
+        // 按关键字筛选
+        if (filter.Keywords.Count > 0)
+            if (filter.Keywords.Any(info => !listing.Description.TextValue.ToLower().Contains(info.ToLower())))
+                return false;
+
+        // 按敏感词屏蔽
+        if (filter.SensitiveWords.Count > 0)
+            if (filter.SensitiveWords.Any(info => listing.Description.TextValue.ToLower().Contains(info.ToLower())))
                 return false;
 
         return true;

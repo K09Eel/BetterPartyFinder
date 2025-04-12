@@ -1,4 +1,4 @@
-﻿using Dalamud.Game.Gui.PartyFinder.Types;
+using Dalamud.Game.Gui.PartyFinder.Types;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility.Raii;
 using ImGuiNET;
@@ -21,40 +21,40 @@ public partial class MainWindow
         ImGui.TableSetupColumn("##Hide");
 
         ImGui.TableNextColumn();
-        Helper.TextColored(ImGuiColors.HealerGreen, "Show:");
+        Helper.TextColored(ImGuiColors.HealerGreen, "展示:");
         ImGui.Separator();
 
         ImGui.TableNextColumn();
-        Helper.TextColored(ImGuiColors.ParsedOrange, "Hide:");
+        Helper.TextColored(ImGuiColors.ParsedOrange, "隐藏:");
         ImGui.Separator();
 
-        filter[ObjectiveFlags.Practice] = DrawRestrictionEntry("Practice", filter[ObjectiveFlags.Practice]);
-        filter[ObjectiveFlags.DutyCompletion] = DrawRestrictionEntry("Duty Completion", filter[ObjectiveFlags.DutyCompletion]);
-        filter[ObjectiveFlags.Loot] = DrawRestrictionEntry("Loot", filter[ObjectiveFlags.Loot]);
+        filter[ObjectiveFlags.Practice] = DrawRestrictionEntry("练习", filter[ObjectiveFlags.Practice]);
+        filter[ObjectiveFlags.DutyCompletion] = DrawRestrictionEntry("完成任务", filter[ObjectiveFlags.DutyCompletion]);
+        filter[ObjectiveFlags.Loot] = DrawRestrictionEntry("反复攻略", filter[ObjectiveFlags.Loot]);
 
         DrawSeparator();
 
-        filter[ConditionFlags.None] = DrawRestrictionEntry("No Completion Requirement", filter[ConditionFlags.None]);
-        filter[ConditionFlags.DutyIncomplete] = DrawRestrictionEntry("Duty Incomplete", filter[ConditionFlags.DutyIncomplete]);
-        filter[ConditionFlags.DutyComplete] = DrawRestrictionEntry("Duty Complete", filter[ConditionFlags.DutyComplete]);
-        filter[ConditionFlags.DutyCompleteWeeklyRewardUnclaimed] = DrawRestrictionEntry("Weekly Reward Unclaimed", filter[ConditionFlags.DutyCompleteWeeklyRewardUnclaimed]);
+        filter[ConditionFlags.None] = DrawRestrictionEntry("无", filter[ConditionFlags.None]);
+        filter[ConditionFlags.DutyIncomplete] = DrawRestrictionEntry("任务未完成", filter[ConditionFlags.DutyIncomplete]);
+        filter[ConditionFlags.DutyComplete] = DrawRestrictionEntry("任务已完成", filter[ConditionFlags.DutyComplete]);
+        filter[ConditionFlags.DutyCompleteWeeklyRewardUnclaimed] = DrawRestrictionEntry("任务已完成（本周的周常奖励：未获得）", filter[ConditionFlags.DutyCompleteWeeklyRewardUnclaimed]);
 
         DrawSeparator();
 
-        filter[DutyFinderSettingsFlags.UndersizedParty] = DrawRestrictionEntry("Undersized Party", filter[DutyFinderSettingsFlags.UndersizedParty]);
-        filter[DutyFinderSettingsFlags.MinimumItemLevel] = DrawRestrictionEntry("Minimum Item Level", filter[DutyFinderSettingsFlags.MinimumItemLevel]);
-        filter[DutyFinderSettingsFlags.SilenceEcho] = DrawRestrictionEntry("Silence Echo", filter[DutyFinderSettingsFlags.SilenceEcho]);
+        filter[DutyFinderSettingsFlags.UndersizedParty] = DrawRestrictionEntry("解除限制", filter[DutyFinderSettingsFlags.UndersizedParty]);
+        filter[DutyFinderSettingsFlags.MinimumItemLevel] = DrawRestrictionEntry("最低品级", filter[DutyFinderSettingsFlags.MinimumItemLevel]);
+        filter[DutyFinderSettingsFlags.SilenceEcho] = DrawRestrictionEntry("超越之力无效化", filter[DutyFinderSettingsFlags.SilenceEcho]);
 
         DrawSeparator();
 
-        filter[LootRuleFlags.GreedOnly] = DrawRestrictionEntry("Greed Only", filter[LootRuleFlags.GreedOnly]);
-        filter[LootRuleFlags.Lootmaster] = DrawRestrictionEntry("Lootmaster", filter[LootRuleFlags.Lootmaster]);
+        filter[LootRuleFlags.GreedOnly] = DrawRestrictionEntry("仅限贪婪", filter[LootRuleFlags.GreedOnly]);
+        filter[LootRuleFlags.Lootmaster] = DrawRestrictionEntry("队长分配", filter[LootRuleFlags.Lootmaster]);
 
         DrawSeparator();
 
-        filter[SearchAreaFlags.DataCentre] = DrawRestrictionEntry("Data Centre Parties", filter[SearchAreaFlags.DataCentre]);
-        filter[SearchAreaFlags.World] = DrawRestrictionEntry("World-Local Parties", filter[SearchAreaFlags.World]);
-        filter[SearchAreaFlags.OnePlayerPerJob] = DrawRestrictionEntry("One Player Per Job", filter[SearchAreaFlags.OnePlayerPerJob]);
+        filter[SearchAreaFlags.DataCentre] = DrawRestrictionEntry("跨服小队", filter[SearchAreaFlags.DataCentre]);
+        filter[SearchAreaFlags.World] = DrawRestrictionEntry("服务器内招募", filter[SearchAreaFlags.World]);
+        filter[SearchAreaFlags.OnePlayerPerJob] = DrawRestrictionEntry("职业不重复", filter[SearchAreaFlags.OnePlayerPerJob]);
 
         if (Save)
             Plugin.Config.Save();
